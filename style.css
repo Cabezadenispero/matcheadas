@@ -1,0 +1,8 @@
+
+body{
+    display: flex;
+    justify-content: center;
+    background-image: url('./images/image-from-rawpixel-id-680670-jpeg.jpg');
+    background-size: 100%;
+
+}
