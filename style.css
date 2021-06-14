@@ -1,5 +1,6 @@
-body.formato {
+body.format {
     --background-color-button: #5d5dda;
+    --background-color-overlay: #5d5dda;
 }
 
 body{
@@ -15,7 +16,7 @@ body{
 .swal-modal {
     position: absolute;
     top: 20px;
-    left: calc(50% - 225px);
+    left: calc(50% - 240px);
     padding: 10px 25px;
     border-radius: 15px;
     width:480px;
@@ -39,9 +40,9 @@ body{
     width: 100px;
     height: 35px;
     align-self: flex-end;
-    background-color: #756565;
+    background-color: var(--background-color-button);
 }
 
 .swal-overlay {
-    background-color: rgba(43, 165, 137, 0.45);
+    background-color: rgba(93, 93, 218, 0.25);
     } 
