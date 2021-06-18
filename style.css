@@ -20,7 +20,6 @@ body{
     padding: 10px 25px;
     border-radius: 15px;
     width:480px;
-    height: 450px;
     display: flex;
     flex-direction:column;
     text-align: center;    
