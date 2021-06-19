@@ -1,9 +1,10 @@
-window.onload = function () {
+let size;
+
+const selectLevel = (selectLevelOnCompleteCallback) =>{
     swal({title: "!Bienvenida!",
         text: "En matcheADAs tu objetivo es juntar tres o más items del mismo tipo, ya sea en fila o en columna. Para eso, selecciona un item y a continuación un item adyacente para intercambiarlos de lugar. \n \n Si se forma un grupo, esos items se eliminarán y ganarás puntos. ¡Sigue armando grupos de tres o más antes de que se acabe el tiempo! \n \n Controles \n Click izquierdo: selección. \n Enter o espacio: selección. \n Flechas o WASD: movimiento e intercambio." ,
         button: "A Jugar",
         closeOnClickOutside: false,
-        button: "A jugar",
     }).then((valor) => {
         if(valor){
             swal({title: "Nuevo juego",
@@ -24,25 +25,32 @@ window.onload = function () {
         }
         },
     }).then((value) => {
+        let level = 0;
         switch (value) {
 
             case "easy":
-            swal("se tiene q abrir el juego facil");
+            level = 9;
             break;
             
             case "normal":
-            swal("se tiene q abrir el juego normal");
+            level = 8;
             break;
         
             case "difficult":
-            swal("se tiene q abrir el juego dificil");
+            level = 7;
             break;
         }
+        size = level;
+        selectLevelOnCompleteCallback(size);
     });
         }
         
     });
-}
+};
+window.addEventListener('load', selectLevel(function(size){
+    initilizeMatrix(size);
+    displayGrid();
+}));
 
 // Initilize Matrix game
 
@@ -57,7 +65,6 @@ const initilizeMatrix = (size) => {
         }
         matrixData.push(row);
     }
-    console.log(matrixData);
 }
 
 // Show Grid game
@@ -67,7 +74,6 @@ const grid = document.getElementById('grid');
 const displayGrid = () => {
     let positionY = 0;
     const cellWidth = (grid.offsetWidth / matrixData.length);
-    console.log(grid.offsetWidth);
     const cellHeight = (grid.offsetHeight / matrixData.length);
     for(let y = 0; y < matrixData.length; y++){
         let positionX = 0;
@@ -108,5 +114,3 @@ const displayGrid = () => {
         positionY += cellHeight;
     }
 }
-
-displayGrid(initilizeMatrix(7));
