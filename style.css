@@ -1,14 +1,68 @@
+*{
+    margin: 0;
+    padding: 0;
+}
 body.format {
     --background-color-button: #5d5dda;
     --background-color-overlay: #5d5dda;
+    --color-title: #5d5dda;
+    --text-outline: 1px 1px #2c2b2b, 1px -1px #2c2b2b, -1px -1px #2c2b2b,
+    -1px 1px #2c2b2b;
+    --text-outline-title: 1px 1px #fafafa, 1px -1px #fafafa, -1px -1px #fafafa,
+    -1px 1px #fafafa;
 }
 
 body{
+    height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: center;
     background-image: url('./images/image-from-rawpixel-id-680670-jpeg.jpg');
-    background-size: 100%;
+    background-size: cover;
     position: relative;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+main{
+    max-width: 500px;
+    width: 500px;
+}
+
+i {
+    color: #fafafa;
+    text-shadow: var(--text-outline);
+}
+
+.game-title {
+    text-align: center;
+    font-size: 45px;
+    margin-top: 0;
+    font-weight: 800;
+    color: var(--color-title);
+    text-shadow: var(--text-outline-title);
+    margin-bottom: 60px;
+}
+
+/* Matrix game */
+
+#grid-container{
+    width: 100%;
+    height: 500px;
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 3px solid #fafafa;
+    background: rgb(0 0 0 / 73%);
+}
+
+#grid {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.grid-cell{
+    position:absolute;
 }
 
 /* alert wellcome format*/
@@ -44,31 +98,4 @@ body{
 
 .swal-overlay {
     background-color: rgba(93, 93, 218, 0.25);
-    } 
-
-
-
-
-/* Matrix game */
-
-#grid-container{
-    max-width: 500px;
-    width: 500px;
-    max-height: 500px;
-    height: 500px;
-    border-radius: 10px;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 3px solid #fafafa;
-    background: rgb(0 0 0 / 73%);
-}
-
-#grid {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.grid-cell{
-    position:absolute;
-}
+} 
