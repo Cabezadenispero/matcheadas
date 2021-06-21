@@ -98,4 +98,8 @@ i {
 
 .swal-overlay {
     background-color: rgba(93, 93, 218, 0.25);
-} 
+}
+
+img{
+    width:45px;
+}
