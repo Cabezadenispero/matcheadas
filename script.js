@@ -80,6 +80,7 @@ const displayGrid = () => {
         for(let x = 0; x < matrixData[y].length; x++){
     
             let cellDiv = document.createElement('div');
+            let image=document.createElement("img");
             cellDiv.style.width = cellWidth + 'px';
             cellDiv.style.height = cellHeight + 'px';
             cellDiv.style.left = positionX + 'px';
@@ -87,25 +88,26 @@ const displayGrid = () => {
             cellDiv.style.borderRadius = '5px'; 
             cellDiv.className = 'grid-cell';
             grid.appendChild(cellDiv);
+            cellDiv.appendChild(image);
             const value = matrixData[y][x]
             switch(value){
                 case 1:
-                    cellDiv.style.backgroundColor = 'red';
+                    image.setAttribute("src","./images/Icons/beach-ball.svg");
                     break;
                 case 2:
-                    cellDiv.style.backgroundColor = 'blue';
+                    image.setAttribute("src","./images/Icons/crab.svg");
                     break;
                 case 3:
-                    cellDiv.style.backgroundColor = 'white';
+                    image.setAttribute("src","./images/Icons/palm.svg");
                     break;
                 case 4:
-                    cellDiv.style.backgroundColor = 'orange';
+                    image.setAttribute("src","./images/Icons/ice-cream.svg");
                     break;
                 case 5:
-                    cellDiv.style.backgroundColor = 'green';
+                    image.setAttribute("src","./images/Icons/pineapple.svg");
                     break;
                 case 6:
-                    cellDiv.style.backgroundColor = 'yellow';
+                    image.setAttribute("src","./images/Icons/surfboard.svg");
                     break;
                             
             } 
