@@ -62,9 +62,36 @@ const initilizeMatrix = (size) => {
         for(let j = 0; j < size; j ++){
             const cell = Math.floor(Math.random() * (7 - 1) ) + 1;
             row.push(cell);
+
         }
         matrixData.push(row);
     }
+
+    for(let k=0; k< matrixData.length; k++){
+
+      for(let z=0; z<matrixData[k].length; z++){
+        if(matrixData[k][z]=== matrixData[k][z+1]){
+          matrixData[k][z+2]= "x"
+          
+        }
+      }
+    }
+
+    // for (let row = 0; row < matrixData.length; row++) {
+        
+    //   for (let column = 0; column < row; column++) {
+    //     let temp = matrixData[row][column]
+    //     matrixData[row][column] = matrixData[column][row]
+    //     matrixData[column][row] = temp
+    //     if(matrixData[column][row]=== matrixData[column][row+1]){
+    //       matrixData[column][row+1]= Math.floor(Math.random() * (7 - 1) ) + 1;
+          
+    //     }
+    //   }
+    // }
+    
+    console.log(matrixData);
+    match_search  (matrixData);
 }
 
 // Show Grid game
@@ -115,4 +142,34 @@ const displayGrid = () => {
         }
         positionY += cellHeight;
     }
+};
+
+// Function game
+
+const match_search  = () => {
+
+    let match_grid = [];
+    
+    // grid clone
+    for(let i = 0; i < matrixData.length; i++) {
+      match_grid.push(matrixData[i].slice())
+
+    }
+    
+  
+    // Search in row
+    for(let row = 0; row < matrixData.length; row++) {
+        match_group_by_row(matrixData, match_grid, row)
+    }
+  
+    // Search in column
+    for(let column = 0; column < matrixData[0].length; column++) {
+        match_group_by_column(matrixData, match_grid, column);
+    }
+  
+    console.log(match_grid)
+
 }
+
+
+
