@@ -20,7 +20,7 @@ body{
     background-image: url('./images/image-from-rawpixel-id-680670-jpeg.jpg');
     background-size: cover;
     position: relative;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 main{
@@ -36,11 +36,11 @@ i {
 .game-title {
     text-align: center;
     font-size: 45px;
-    margin-top: 0;
     font-weight: 800;
     color: var(--color-title);
     text-shadow: var(--text-outline-title);
-    margin-bottom: 60px;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 /* Matrix game */
@@ -51,8 +51,7 @@ i {
     border-radius: 10px;
     padding: 10px;
     box-sizing: border-box;
-    border: 3px solid #fafafa;
-    background: rgb(0 0 0 / 73%);
+    background: rgb(0 0 0 / 75%);
 }
 
 #grid {
