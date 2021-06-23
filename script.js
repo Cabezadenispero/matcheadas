@@ -67,15 +67,15 @@ const initilizeMatrix = (size) => {
         matrixData.push(row);
     }
 
-    for(let k=0; k< matrixData.length; k++){
+    // for(let k=0; k< matrixData.length; k++){
 
-      for(let z=0; z<matrixData[k].length; z++){
-        if(matrixData[k][z]=== matrixData[k][z+1]){
-          matrixData[k][z+2]= "x"
+    //   for(let z=0; z<matrixData[k].length; z++){
+    //     if(matrixData[k][z]=== matrixData[k][z+1]){
+    //       matrixData[k][z+2]= Math.floor(Math.random() * (7 - 1) ) + 1;
           
-        }
-      }
-    }
+    //     }
+    //   }
+    // }
 
     // for (let row = 0; row < matrixData.length; row++) {
         
@@ -90,8 +90,9 @@ const initilizeMatrix = (size) => {
     //   }
     // }
     
-    console.log(matrixData);
+    console.log("matrixData", matrixData);
     match_search  (matrixData);
+
 }
 
 // Show Grid game
@@ -116,25 +117,28 @@ const displayGrid = () => {
             cellDiv.className = 'grid-cell';
             grid.appendChild(cellDiv);
             cellDiv.appendChild(image);
+
+            cellDiv.setAttribute('data', `[${matrixData.indexOf(matrixData[y])}, ${matrixData.indexOf(matrixData[x])}]`)
+
             const value = matrixData[y][x]
             switch(value){
                 case 1:
-                    image.setAttribute("src","./images/Icons/beach-ball.svg");
+                    image.setAttribute("src","./images/icons/beach-ball.svg");
                     break;
                 case 2:
-                    image.setAttribute("src","./images/Icons/crab.svg");
+                    image.setAttribute("src","./images/icons/crab.svg");
                     break;
                 case 3:
-                    image.setAttribute("src","./images/Icons/palm.svg");
+                    image.setAttribute("src","./images/icons/palm.svg");
                     break;
                 case 4:
-                    image.setAttribute("src","./images/Icons/ice-cream.svg");
+                    image.setAttribute("src","./images/icons/icecream.svg");
                     break;
                 case 5:
-                    image.setAttribute("src","./images/Icons/pineapple.svg");
+                    image.setAttribute("src","./images/icons/pineapple.svg");
                     break;
                 case 6:
-                    image.setAttribute("src","./images/Icons/surfboard.svg");
+                    image.setAttribute("src","./images/icons/surfboard.svg");
                     break;
                             
             } 
@@ -146,28 +150,140 @@ const displayGrid = () => {
 
 // Function game
 
+let match_grid = [];
+
 const match_search  = () => {
 
-    let match_grid = [];
-    
-    // grid clone
-    for(let i = 0; i < matrixData.length; i++) {
-      match_grid.push(matrixData[i].slice())
-
-    }
-    
   
     // Search in row
     for(let row = 0; row < matrixData.length; row++) {
-        match_group_by_row(matrixData, match_grid, row)
+        match_group_by_row(matrixData, row)
     }
   
     // Search in column
     for(let column = 0; column < matrixData[0].length; column++) {
-        match_group_by_column(matrixData, match_grid, column);
+        match_group_by_column(matrixData, column);
     }
+
+
+}
+
+// Match in row
+
+const match_group_by_row = (full_grid, row) => {
   
-    console.log(match_grid)
+  let group_start = -1;
+  let group_end = -1;
+  let group_size = 0;
+  let number_of_column = full_grid[row].length;
+  let last_element = false;
+
+  for(let column = 0; column < (number_of_column-1); column++) {
+
+    last_element = (column+1 == number_of_column-1) ? true : false;
+
+    if(full_grid[row][column]==full_grid[row][column+1]) {
+      
+      if(group_start == -1) { 
+        group_start = column 
+        if(last_element) {
+          group_end = column
+        }
+        else {
+          group_end = column+1
+        }
+        
+      }
+      else {
+          group_end = column+1 
+      }
+      
+      if(last_element) {
+        group_size = group_end - group_start;
+        
+        if(group_size >= 2) {
+          for(let j = group_start; j < group_end+1; j++) {
+            full_grid[row][j] = 'x'
+          }
+        }
+      }
+    }
+    else { 
+      if(group_start != -1) { 
+        group_size = group_end - group_start;
+
+        if(group_size >= 2) {
+          for(let k = group_start; k < group_end+1; k++) {
+            full_grid[row][k] = 'x'
+          }
+        }
+        
+        group_start = -1
+        group_end = -1
+        
+      }
+    }
+  }
+}
+
+// Match in column
+
+const match_group_by_column = (full_grid, column) => {
+
+  let group_start = -1;
+  let group_end = -1;
+  let group_size = 0;
+  let number_of_rows = full_grid.length;
+  let last_element = false;
+
+  for(let row = 0; row < (number_of_rows-1); row++) {
+
+    last_element = (row+1 == number_of_rows-1) ? true : false;
+
+    if(full_grid[row][column]==full_grid[row+1][column]) {
+      
+      if(group_start == -1) { 
+        group_start = row 
+        if(last_element) {
+          group_end = row
+        }
+        else {
+          group_end = row+1
+        }
+        
+      }
+      else {
+
+        group_end = row+1 
+      }
+
+      if(last_element) {
+        group_size = group_end - group_start;
+
+        if(group_size >= 2) {
+          for(let h = group_start; h < group_end+1; h++) {
+            full_grid[h][column] = 'x'
+          }
+        }
+      }
+    }
+    else { 
+      
+      if(group_start != -1) { 
+        group_size = group_end - group_start;
+
+        if(group_size >= 2) {
+          for(let z = group_start; z < group_end+1; z++) {
+            full_grid[z][column] = 'x'
+          }
+        }
+
+        group_start = -1
+        group_end = -1
+
+      }
+    }
+  }
 
 }
 
