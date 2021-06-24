@@ -66,29 +66,6 @@ const initilizeMatrix = (size) => {
         }
         matrixData.push(row);
     }
-
-    // for(let k=0; k< matrixData.length; k++){
-
-    //   for(let z=0; z<matrixData[k].length; z++){
-    //     if(matrixData[k][z]=== matrixData[k][z+1]){
-    //       matrixData[k][z+2]= Math.floor(Math.random() * (7 - 1) ) + 1;
-          
-    //     }
-    //   }
-    // }
-
-    // for (let row = 0; row < matrixData.length; row++) {
-        
-    //   for (let column = 0; column < row; column++) {
-    //     let temp = matrixData[row][column]
-    //     matrixData[row][column] = matrixData[column][row]
-    //     matrixData[column][row] = temp
-    //     if(matrixData[column][row]=== matrixData[column][row+1]){
-    //       matrixData[column][row+1]= Math.floor(Math.random() * (7 - 1) ) + 1;
-          
-    //     }
-    //   }
-    // }
     
     console.log("matrixData", matrixData);
     match_search  (matrixData);
@@ -165,6 +142,7 @@ const match_search  = () => {
         match_group_by_column(matrixData, column);
     }
 
+    down_elements(matrixData)
 
 }
 
@@ -287,5 +265,22 @@ const match_group_by_column = (full_grid, column) => {
 
 }
 
+const down_elements=(matriz)=>{
+  let l=0;
+  while (l<10){
+      for (let i=0; i< matriz.length-1; i++){
+        
+          for(let j=0; j<  matriz[i].length; j++){
+              if( matriz[i+1][j]==='x' && matriz[i+1]!=undefined){
+              matriz[i+1][j]=matriz[i][j]
+              matriz[i][j]='x'
+              
+              }
 
+          }
+      }
+      l++
+  }
+  console.log("Matriz con x desplazadas",matriz)
+}
 
