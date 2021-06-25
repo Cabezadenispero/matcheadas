@@ -1,51 +1,51 @@
 let size;
 
 const selectLevel = (selectLevelOnCompleteCallback) =>{
-    swal({title: "!Bienvenida!",
-        text: "En matcheADAs tu objetivo es juntar tres o más items del mismo tipo, ya sea en fila o en columna. Para eso, selecciona un item y a continuación un item adyacente para intercambiarlos de lugar. \n \n Si se forma un grupo, esos items se eliminarán y ganarás puntos. ¡Sigue armando grupos de tres o más antes de que se acabe el tiempo! \n \n Controles \n Click izquierdo: selección. \n Enter o espacio: selección. \n Flechas o WASD: movimiento e intercambio." ,
-        button: "A Jugar",
-        closeOnClickOutside: false,
-    }).then((valor) => {
-        if(valor){
-            swal({title: "Nuevo juego",
-        text: "Selecciona una dificultad",
-        closeOnClickOutside: false,
-        buttons: {
-        facil: {
-            text: "Facil",
-            value: "easy",
+  swal({title: "!Bienvenida!",
+    text: "En matcheADAs tu objetivo es juntar tres o más items del mismo tipo, ya sea en fila o en columna. Para eso, selecciona un item y a continuación un item adyacente para intercambiarlos de lugar. \n \n Si se forma un grupo, esos items se eliminarán y ganarás puntos. ¡Sigue armando grupos de tres o más antes de que se acabe el tiempo! \n \n Controles \n Click izquierdo: selección. \n Enter o espacio: selección. \n Flechas o WASD: movimiento e intercambio." ,
+    button: "A Jugar",
+    closeOnClickOutside: false,
+  }).then((valor) => {
+      if(valor){
+        swal({title: "Nuevo juego",
+          text: "Selecciona una dificultad",
+          closeOnClickOutside: false,
+          buttons: {
+            facil: {
+              text: "Fácil",
+              value: "easy",
+            },
+            normal: {
+                text: "Normal",
+                value: "normal",
+            },
+            dificil: {
+                text: "Difícil",
+                value: "difficult",
+            }
         },
-        normal: {
-            text: "normal",
-            value: "normal",
-        },
-        dificil: {
-            text: "dificil",
-            value: "difficult",
-        }
-        },
-    }).then((value) => {
-        let level = 0;
-        switch (value) {
+  }).then((value) => {
+    let level = 0;
+    switch (value) {
 
-            case "easy":
-            level = 9;
-            break;
+      case "easy":
+      level = 9;
+      break;
             
-            case "normal":
-            level = 8;
-            break;
+      case "normal":
+      level = 8;
+      break;
         
-            case "difficult":
-            level = 7;
-            break;
+      case "difficult":
+      level = 7;
+      break;
         }
-        size = level;
-        selectLevelOnCompleteCallback(size);
-    });
-        }
+      size = level;
+      selectLevelOnCompleteCallback(size);
+      });
+    }
         
-    });
+  });
 };
 window.addEventListener('load', selectLevel(function(size){
     initilizeMatrix(size);
@@ -77,52 +77,60 @@ const initilizeMatrix = (size) => {
 const grid = document.getElementById('grid');
 
 const displayGrid = () => {
-    let positionY = 0;
-    const cellWidth = (grid.offsetWidth / matrixData.length);
-    const cellHeight = (grid.offsetHeight / matrixData.length);
-    for(let y = 0; y < matrixData.length; y++){
-        let positionX = 0;
-        for(let x = 0; x < matrixData[y].length; x++){
+  let positionY = 0;
+  const cellWidth = (grid.offsetWidth / matrixData.length);
+  const cellHeight = (grid.offsetHeight / matrixData.length);
+  for(let y = 0; y < matrixData.length; y++){
+    let positionX = 0;
+    for(let x = 0; x < matrixData[y].length; x++){
     
-            let cellDiv = document.createElement('div');
-            let image=document.createElement("img");
-            cellDiv.style.width = cellWidth + 'px';
-            cellDiv.style.height = cellHeight + 'px';
-            cellDiv.style.left = positionX + 'px';
-            cellDiv.style.top = positionY + 'px';
-            cellDiv.style.borderRadius = '5px'; 
-            cellDiv.className = 'grid-cell';
-            grid.appendChild(cellDiv);
-            cellDiv.appendChild(image);
+      let cellDiv = document.createElement('div');
+      let image=document.createElement("img");
+      cellDiv.style.width = cellWidth + 'px';
+      cellDiv.style.height = cellHeight + 'px';
+      cellDiv.style.left = positionX + 'px';
+      cellDiv.style.top = positionY + 'px';
+      cellDiv.style.borderRadius = '5px'; 
+      cellDiv.className = 'grid-cell';
+      grid.appendChild(cellDiv);
+      cellDiv.appendChild(image);
 
-            cellDiv.setAttribute('data', `[${matrixData.indexOf(matrixData[y])}, ${matrixData.indexOf(matrixData[x])}]`)
+      cellDiv.setAttribute('data-y', `[${matrixData.indexOf(matrixData[y])}]`);
+      cellDiv.setAttribute('data-x', `[${matrixData.indexOf(matrixData[x])}]`);
 
-            const value = matrixData[y][x]
-            switch(value){
-                case 1:
-                    image.setAttribute("src","./images/icons/beach-ball.svg");
-                    break;
-                case 2:
-                    image.setAttribute("src","./images/icons/crab.svg");
-                    break;
-                case 3:
-                    image.setAttribute("src","./images/icons/palm.svg");
-                    break;
-                case 4:
-                    image.setAttribute("src","./images/icons/icecream.svg");
-                    break;
-                case 5:
-                    image.setAttribute("src","./images/icons/pineapple.svg");
-                    break;
-                case 6:
-                    image.setAttribute("src","./images/icons/surfboard.svg");
-                    break;
-                            
-            } 
-            positionX += cellWidth;
-        }
+      image.style.pointerEvents='none';
+            
+      cellDiv.addEventListener('click', e=>{
+        e.stopPropagation();
+        console.log(e.target)
+      })
+
+  const value = matrixData[y][x]
+    switch(value){
+      case 1:
+        image.setAttribute("src","./images/icons/beach-ball.svg");
+        break;
+      case 2:
+        image.setAttribute("src","./images/icons/crab.svg");
+        break;
+      case 3:
+        image.setAttribute("src","./images/icons/palm.svg");
+        break;
+      case 4:
+        image.setAttribute("src","./images/icons/icecream.svg");
+        break;
+      case 5:
+        image.setAttribute("src","./images/icons/pineapple.svg");
+        break;
+      case 6:
+        image.setAttribute("src","./images/icons/surfboard.svg");
+        break;
+                    
+    } 
+      positionX += cellWidth;
+  }
         positionY += cellHeight;
-    }
+  }
 };
 
 // Function game
@@ -130,21 +138,24 @@ const displayGrid = () => {
 let match_grid = [];
 
 const match_search  = () => {
-
-  
+  // let l=0;
+  //  while (l<20){
     // Search in row
-    for(let row = 0; row < matrixData.length; row++) {
-        match_group_by_row(matrixData, row)
-    }
-  
+  for(let row = 0; row < matrixData.length; row++) {
+    match_group_by_row(matrixData, row)
+  }
+
     // Search in column
-    for(let column = 0; column < matrixData[0].length; column++) {
-        match_group_by_column(matrixData, column);
-    }
+  for(let column = 0; column < matrixData[0].length; column++) {
+    match_group_by_column(matrixData, column);
+  }
+  //   l++
+  // }
 
     down_elements(matrixData)
-
+    // complete_grid(matrixData);
 }
+
 
 // Match in row
 
@@ -161,11 +172,11 @@ const match_group_by_row = (full_grid, row) => {
     last_element = (column+1 == number_of_column-1) ? true : false;
 
     if(full_grid[row][column]==full_grid[row][column+1]) {
-      
+        
       if(group_start == -1) { 
         group_start = column 
-        if(last_element) {
-          group_end = column
+      if(last_element) {
+        group_end = column
         }
         else {
           group_end = column+1
@@ -173,7 +184,7 @@ const match_group_by_row = (full_grid, row) => {
         
       }
       else {
-          group_end = column+1 
+        group_end = column+1 
       }
       
       if(last_element) {
@@ -208,11 +219,11 @@ const match_group_by_row = (full_grid, row) => {
 
 const match_group_by_column = (full_grid, column) => {
 
-  let group_start = -1;
-  let group_end = -1;
-  let group_size = 0;
-  let number_of_rows = full_grid.length;
-  let last_element = false;
+let group_start = -1;
+let group_end = -1;
+let group_size = 0;
+let number_of_rows = full_grid.length;
+let last_element = false;
 
   for(let row = 0; row < (number_of_rows-1); row++) {
 
@@ -266,21 +277,39 @@ const match_group_by_column = (full_grid, column) => {
 }
 
 const down_elements=(matriz)=>{
-  let l=0;
-  while (l<10){
-      for (let i=0; i< matriz.length-1; i++){
+    let l=0;
+    while (l<10){
+        for (let i=0; i< matriz.length-1; i++){
         
-          for(let j=0; j<  matriz[i].length; j++){
-              if( matriz[i+1][j]==='x' && matriz[i+1]!=undefined){
-              matriz[i+1][j]=matriz[i][j]
-              matriz[i][j]='x'
-              
-              }
+            for(let j=0; j<  matriz[i].length; j++){
+                if( matriz[i+1][j]==='x' && matriz[i+1]!=undefined){
+                    matriz[i+1][j]=matriz[i][j]
+                    matriz[i][j]='x'
+                
+                }
 
-          }
-      }
-      l++
-  }
-  console.log("Matriz con x desplazadas",matriz)
+            }
+        }
+    l++
+    }
+console.log("Matriz con x desplazadas",matriz)
 }
 
+
+// const complete_grid=(matriz)=>{
+//     let output= false;
+
+//     for (let i=0; i< matriz.length; i++){
+
+//         const array=matriz[i];
+
+//         for (let j=0; j< array.length; j++){
+//             if(array[j] === array [j+1] && array[j+1] === array [j+2]){
+//                 output=true
+//             }
+//         }
+
+//     }
+
+//   console.log("Matriz complete grid",matriz)
+// }
