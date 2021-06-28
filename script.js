@@ -103,6 +103,7 @@ const displayGrid = () => {
       cellDiv.addEventListener('click', e=>{
         e.stopPropagation();
         console.log(e.target)
+      
       })
 
   const value = matrixData[y][x]
@@ -133,27 +134,36 @@ const displayGrid = () => {
   }
 };
 
+
 // Function game
 
 let match_grid = [];
 
 const match_search  = () => {
-  // let l=0;
-  //  while (l<20){
-    // Search in row
-  for(let row = 0; row < matrixData.length; row++) {
-    match_group_by_row(matrixData, row)
-  }
 
-    // Search in column
-  for(let column = 0; column < matrixData[0].length; column++) {
-    match_group_by_column(matrixData, column);
-  }
-  //   l++
-  // }
+    let hasMatchRow=false;
+    let hasMatchColumn=false;
 
+    let resultado=[];
+    console.table(matrixData)
+  console.log("en row")
+    for(let row = 0; row < matrixData.length; row++) {
+      hasMatchRow=match_group_by_row(matrixData, row);
+      resultado.push(hasMatchRow)
+    }
+    console.log("en column")
+      // Search in column
+    for(let column = 0; column < matrixData[0].length; column++) {
+      hasMatchColumn=match_group_by_column(matrixData, column);
+      resultado.push(hasMatchColumn)
+    }
+
+    console.log(resultado)
+  
+    if (resultado.includes(true)){
     down_elements(matrixData)
-    // complete_grid(matrixData);
+    }
+
 }
 
 
@@ -166,16 +176,17 @@ const match_group_by_row = (full_grid, row) => {
   let group_size = 0;
   let number_of_column = full_grid[row].length;
   let last_element = false;
+  let hasMatch=false;
 
   for(let column = 0; column < (number_of_column-1); column++) {
-
+    if(full_grid[row][column]=='x') continue;
     last_element = (column+1 == number_of_column-1) ? true : false;
 
     if(full_grid[row][column]==full_grid[row][column+1]) {
         
       if(group_start == -1) { 
         group_start = column 
-      if(last_element) {
+        if(last_element) {
         group_end = column
         }
         else {
@@ -193,6 +204,8 @@ const match_group_by_row = (full_grid, row) => {
         if(group_size >= 2) {
           for(let j = group_start; j < group_end+1; j++) {
             full_grid[row][j] = 'x'
+            hasMatch=true;
+            
           }
         }
       }
@@ -203,7 +216,9 @@ const match_group_by_row = (full_grid, row) => {
 
         if(group_size >= 2) {
           for(let k = group_start; k < group_end+1; k++) {
-            full_grid[row][k] = 'x'
+            full_grid[row][k] = 'x';
+            hasMatch=true;
+            
           }
         }
         
@@ -213,6 +228,8 @@ const match_group_by_row = (full_grid, row) => {
       }
     }
   }
+  return hasMatch
+  
 }
 
 // Match in column
@@ -224,9 +241,10 @@ let group_end = -1;
 let group_size = 0;
 let number_of_rows = full_grid.length;
 let last_element = false;
+let hasMatch=false; 
 
   for(let row = 0; row < (number_of_rows-1); row++) {
-
+    if(full_grid[row][column]=='x') continue;
     last_element = (row+1 == number_of_rows-1) ? true : false;
 
     if(full_grid[row][column]==full_grid[row+1][column]) {
@@ -251,7 +269,8 @@ let last_element = false;
 
         if(group_size >= 2) {
           for(let h = group_start; h < group_end+1; h++) {
-            full_grid[h][column] = 'x'
+            full_grid[h][column] = 'x';
+            hasMatch=true;
           }
         }
       }
@@ -263,7 +282,8 @@ let last_element = false;
 
         if(group_size >= 2) {
           for(let z = group_start; z < group_end+1; z++) {
-            full_grid[z][column] = 'x'
+            full_grid[z][column] = 'x';
+            hasMatch=true;
           }
         }
 
@@ -273,6 +293,7 @@ let last_element = false;
       }
     }
   }
+  return hasMatch;
 
 }
 
@@ -293,6 +314,7 @@ const down_elements=(matriz)=>{
     l++
     }
 console.log("Matriz con x desplazadas",matriz)
+match_search(matrixData) 
 }
 
 
