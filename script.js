@@ -8,6 +8,10 @@ let match_grid = [];
 let firstClick = [];
 let secondClick = [];
 
+let firstItemValue; 
+let secondItemValue;
+
+
 //------Alert wellcome and choose level -------
 
 const selectLevel = (selectLevelOnCompleteCallback) =>{
@@ -130,7 +134,7 @@ const displayGrid = () => {
       case 6:
         image.setAttribute("src","./images/icons/surfboard.svg");
         break;
-                    
+        
     } 
       positionX += cellWidth;
   }
@@ -295,9 +299,12 @@ const match_group_by_column = (full_grid, column) => {
 
 //------Selection of elements by click--------
 
+let x=0;
+let y=0; 
+
 const selectElements=(e)=>{
-  let x = parseInt(e.target.getAttribute('data-x'));
-  let y = parseInt(e.target.getAttribute('data-y'));
+    x = parseInt(e.target.getAttribute('data-x'));
+    y = parseInt(e.target.getAttribute('data-y'));
 
         if (firstClick.length === 0){
           firstClick.push(x);
@@ -307,12 +314,11 @@ const selectElements=(e)=>{
           secondClick.push(x);
           secondClick.push(y);
           
-          secondItemValue= matrixData[y][x]
+          secondItemValue= matrixData[y][x];
           
           x = firstClick[0];
           y = firstClick[1];
           firstItemValue= matrixData[y][x]
-
 
           console.log('firstClick',firstClick)
           console.log('secondClick', secondClick)
@@ -320,13 +326,54 @@ const selectElements=(e)=>{
           console.log('secondItemValue', secondItemValue)
         }
     checkAdjacent(firstClick,secondClick);
+    setInterval(()=>{switchItems(firstClick,secondClick)}, 1000);
 }
 
 //----- Check if elements is adjacent--------
 
 const checkAdjacent=(firstClick,secondClick)=>{
   console.log("esta funcion comprueba si es adyacente")
+  if(firstClick[0] === secondClick[0]){
+      console.log("estoy en la misma columna")
+      return (firstClick[1] === secondClick[1] - 1) || (firstClick[1] === secondClick[1] + 1);
+
+  } else if (firstClick[1] === secondClick[1]){
+    console.log("estoy en la misma fila")            
+    return (firstClick[0] === secondClick[0] -1) || (firstClick[0] === secondClick[0] +1);
+  }
+    return false
+
 }
+
+  const switchItems=(firstClick, secondClick)=>{
+    if(checkAdjacent(firstClick,secondClick)===true){
+
+      // const second0=secondClick[0];
+      // const second1=secondClick[1];
+      
+      
+      //   for(let i=0; i<matrixData.length; i++){
+      //     i=firstClick[0];
+      //     firstClick[0]=second0;
+      //     secondClick[0]=i;
+      //     for(let j=0; j< matrixData[i].length; j++){
+      
+      //       j=firstClick[1];
+      //       firstClick[1]=second1;
+      //       secondClick[1]=j;
+      
+      
+      //     }
+      //   }
+      
+      
+      
+      console.log("prueba")
+  
+    }
+  }
+
+
 
 //----- Down elements before matches----------
 
