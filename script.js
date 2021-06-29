@@ -1,4 +1,18 @@
 let size;
+const matrixData = [];
+
+const grid = document.getElementById('grid');
+
+let match_grid = [];
+
+let firstClick = [];
+let secondClick = [];
+
+let firstItemValue; 
+let secondItemValue;
+
+
+//------Alert wellcome and choose level -------
 
 const selectLevel = (selectLevelOnCompleteCallback) =>{
   swal({title: "!Bienvenida!",
@@ -27,7 +41,6 @@ const selectLevel = (selectLevelOnCompleteCallback) =>{
   }).then((value) => {
     let level = 0;
     switch (value) {
-
       case "easy":
       level = 9;
       break;
@@ -52,9 +65,7 @@ window.addEventListener('load', selectLevel(function(size){
     displayGrid();
 }));
 
-// Initilize Matrix game
-
-const matrixData = []; 
+//-------Initilize Matrix game--------------
 
 const initilizeMatrix = (size) => {
     for(let i = 0; i < size; i ++){
@@ -62,23 +73,15 @@ const initilizeMatrix = (size) => {
         for(let j = 0; j < size; j ++){
             const cell = Math.floor(Math.random() * (7 - 1) ) + 1;
             row.push(cell);
-
         }
         matrixData.push(row);
     }
     
     console.log("matrixData", matrixData);
     match_search  (matrixData);
-
 }
 
-// Show Grid game
-
-const grid = document.getElementById('grid');
-
- // const for e.target
-let firstClick = [];
-let secondClick = [];
+//------------ Show Grid game------------------
 
 const displayGrid = () => {
   let positionY = 0;
@@ -104,38 +107,12 @@ const displayGrid = () => {
 
       image.style.pointerEvents='none'; 
 
-          
     cellDiv.addEventListener('click', e=>{
         e.stopPropagation();
         console.log(e.target);
         
-        let x = parseInt(e.target.getAttribute('data-x'));
-        let y = parseInt(e.target.getAttribute('data-y'));
-
-        if (firstClick.length === 0){
-          firstClick.push(x);
-          firstClick.push(y);
-        } else {
-          // Entra la segunda vez que hago click
-          secondClick.push(x);
-          secondClick.push(y);
-          
-          secondItemValue= matrixData[y][x]
-          
-          x = firstClick[0];
-          y = firstClick[1];
-          firstItemValue= matrixData[y][x]
-
-
-          console.log('firstClick',firstClick)
-          console.log('secondClick', secondClick)
-          console.log('firstItemValue', firstItemValue)
-          console.log('secondItemValue', secondItemValue)
-        }
-    checkAdjacent(firstClick,secondClick);
+        selectElements(e)
     })
-
-      
 
   const value = matrixData[y][x]
     switch(value){
@@ -157,7 +134,7 @@ const displayGrid = () => {
       case 6:
         image.setAttribute("src","./images/icons/surfboard.svg");
         break;
-                    
+        
     } 
       positionX += cellWidth;
   }
@@ -165,10 +142,7 @@ const displayGrid = () => {
   }
 };
 
-
-// Function game
-
-let match_grid = [];
+//--------Function game--------------
 
 const match_search  = () => {
 
@@ -177,31 +151,29 @@ const match_search  = () => {
 
     let resultado=[];
     console.table(matrixData)
-  console.log("en row")
+    console.log("en row")
+
+    //---- Search in row
     for(let row = 0; row < matrixData.length; row++) {
       hasMatchRow=match_group_by_row(matrixData, row);
       resultado.push(hasMatchRow)
     }
     console.log("en column")
-      // Search in column
+    //---- Search in column
     for(let column = 0; column < matrixData[0].length; column++) {
       hasMatchColumn=match_group_by_column(matrixData, column);
       resultado.push(hasMatchColumn)
     }
-
-    console.log(resultado)
-  
     if (resultado.includes(true)){
     down_elements(matrixData)
     }
-
 }
 
 
-// Match in row
+//---------- Match in row------------
 
 const match_group_by_row = (full_grid, row) => {
-  
+
   let group_start = -1;
   let group_end = -1;
   let group_size = 0;
@@ -218,7 +190,7 @@ const match_group_by_row = (full_grid, row) => {
       if(group_start == -1) { 
         group_start = column 
         if(last_element) {
-        group_end = column
+          group_end = column
         }
         else {
           group_end = column+1
@@ -244,7 +216,6 @@ const match_group_by_row = (full_grid, row) => {
     else { 
       if(group_start != -1) { 
         group_size = group_end - group_start;
-
         if(group_size >= 2) {
           for(let k = group_start; k < group_end+1; k++) {
             full_grid[row][k] = 'x';
@@ -252,7 +223,6 @@ const match_group_by_row = (full_grid, row) => {
             
           }
         }
-        
         group_start = -1
         group_end = -1
         
@@ -260,19 +230,18 @@ const match_group_by_row = (full_grid, row) => {
     }
   }
   return hasMatch
-  
 }
 
-// Match in column
+//--------- Match in column----------
 
 const match_group_by_column = (full_grid, column) => {
 
-let group_start = -1;
-let group_end = -1;
-let group_size = 0;
-let number_of_rows = full_grid.length;
-let last_element = false;
-let hasMatch=false; 
+  let group_start = -1;
+  let group_end = -1;
+  let group_size = 0;
+  let number_of_rows = full_grid.length;
+  let last_element = false;
+  let hasMatch=false; 
 
   for(let row = 0; row < (number_of_rows-1); row++) {
     if(full_grid[row][column]=='x') continue;
@@ -328,6 +297,86 @@ let hasMatch=false;
 
 }
 
+//------Selection of elements by click--------
+
+let x=0;
+let y=0; 
+
+const selectElements=(e)=>{
+    x = parseInt(e.target.getAttribute('data-x'));
+    y = parseInt(e.target.getAttribute('data-y'));
+
+        if (firstClick.length === 0){
+          firstClick.push(x);
+          firstClick.push(y);
+        } else {
+          // Entra la segunda vez que hago click
+          secondClick.push(x);
+          secondClick.push(y);
+          
+          secondItemValue= matrixData[y][x];
+          
+          x = firstClick[0];
+          y = firstClick[1];
+          firstItemValue= matrixData[y][x]
+
+          console.log('firstClick',firstClick)
+          console.log('secondClick', secondClick)
+          console.log('firstItemValue', firstItemValue)
+          console.log('secondItemValue', secondItemValue)
+        }
+    checkAdjacent(firstClick,secondClick);
+    setInterval(()=>{switchItems(firstClick,secondClick)}, 1000);
+}
+
+//----- Check if elements is adjacent--------
+
+const checkAdjacent=(firstClick,secondClick)=>{
+  console.log("esta funcion comprueba si es adyacente")
+  if(firstClick[0] === secondClick[0]){
+      console.log("estoy en la misma columna")
+      return (firstClick[1] === secondClick[1] - 1) || (firstClick[1] === secondClick[1] + 1);
+
+  } else if (firstClick[1] === secondClick[1]){
+    console.log("estoy en la misma fila")            
+    return (firstClick[0] === secondClick[0] -1) || (firstClick[0] === secondClick[0] +1);
+  }
+    return false
+
+}
+
+  const switchItems=(firstClick, secondClick)=>{
+    if(checkAdjacent(firstClick,secondClick)===true){
+
+      // const second0=secondClick[0];
+      // const second1=secondClick[1];
+      
+      
+      //   for(let i=0; i<matrixData.length; i++){
+      //     i=firstClick[0];
+      //     firstClick[0]=second0;
+      //     secondClick[0]=i;
+      //     for(let j=0; j< matrixData[i].length; j++){
+      
+      //       j=firstClick[1];
+      //       firstClick[1]=second1;
+      //       secondClick[1]=j;
+      
+      
+      //     }
+      //   }
+      
+      
+      
+      console.log("prueba")
+  
+    }
+  }
+
+
+
+//----- Down elements before matches----------
+
 const down_elements=(matriz)=>{
     let l=0;
     while (l<10){
@@ -339,12 +388,10 @@ const down_elements=(matriz)=>{
                     matriz[i][j]='x'
                 
                 }
-
             }
         }
     l++
     }
-console.log("Matriz con x desplazadas",matriz)
 match_search(matrixData) 
 }
 
