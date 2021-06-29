@@ -76,6 +76,10 @@ const initilizeMatrix = (size) => {
 
 const grid = document.getElementById('grid');
 
+ // const for e.target
+let firstClick = [];
+let secondClick = [];
+
 const displayGrid = () => {
   let positionY = 0;
   const cellWidth = (grid.offsetWidth / matrixData.length);
@@ -95,16 +99,43 @@ const displayGrid = () => {
       grid.appendChild(cellDiv);
       cellDiv.appendChild(image);
 
-      cellDiv.setAttribute('data-y', `[${matrixData.indexOf(matrixData[y])}]`);
-      cellDiv.setAttribute('data-x', `[${matrixData.indexOf(matrixData[x])}]`);
+      cellDiv.setAttribute('data-y', `${matrixData.indexOf(matrixData[y])}`);
+      cellDiv.setAttribute('data-x', `${matrixData.indexOf(matrixData[x])}`);
 
-      image.style.pointerEvents='none';
-            
-      cellDiv.addEventListener('click', e=>{
+      image.style.pointerEvents='none'; 
+
+          
+    cellDiv.addEventListener('click', e=>{
         e.stopPropagation();
-        console.log(e.target)
+        console.log(e.target);
+        
+        let x = parseInt(e.target.getAttribute('data-x'));
+        let y = parseInt(e.target.getAttribute('data-y'));
+
+        if (firstClick.length === 0){
+          firstClick.push(x);
+          firstClick.push(y);
+        } else {
+          // Entra la segunda vez que hago click
+          secondClick.push(x);
+          secondClick.push(y);
+          
+          secondItemValue= matrixData[y][x]
+          
+          x = firstClick[0];
+          y = firstClick[1];
+          firstItemValue= matrixData[y][x]
+
+
+          console.log('firstClick',firstClick)
+          console.log('secondClick', secondClick)
+          console.log('firstItemValue', firstItemValue)
+          console.log('secondItemValue', secondItemValue)
+        }
+    checkAdjacent(firstClick,secondClick);
+    })
+
       
-      })
 
   const value = matrixData[y][x]
     switch(value){
@@ -318,20 +349,3 @@ match_search(matrixData)
 }
 
 
-// const complete_grid=(matriz)=>{
-//     let output= false;
-
-//     for (let i=0; i< matriz.length; i++){
-
-//         const array=matriz[i];
-
-//         for (let j=0; j< array.length; j++){
-//             if(array[j] === array [j+1] && array[j+1] === array [j+2]){
-//                 output=true
-//             }
-//         }
-
-//     }
-
-//   console.log("Matriz complete grid",matriz)
-// }
