@@ -1,3 +1,5 @@
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
 let size;
 const matrixData = [];
 
@@ -83,6 +85,9 @@ const initilizeMatrix = (size) => {
 //------------ Show Grid game------------------
 
 const displayGrid = () => {
+  grid.innerHTML="";
+
+
   let positionY = 0;
   const cellWidth = (grid.offsetWidth / matrixData.length);
   const cellHeight = (grid.offsetHeight / matrixData.length);
@@ -151,11 +156,13 @@ const play=(e)=>{
     secondClick=e.target; 
     if(checkAdjacent(firstClick,secondClick)){
       if(switchItems(firstClick,secondClick)){
+        
         match_search()
       }
       ;
     } 
   }
+ 
 }
 
 
@@ -203,9 +210,13 @@ const switchItems=(firstClick, secondClick)=>{
     console.log("primero", valueFirstCell);
     console.log("segundo",valueSecondCell);
 
+    console.log(matrixData);
+    match_search(matrixData)
+
 }
 
 //--------Search for matches row and column--------------
+
 
 const match_search  = () => {
 
@@ -227,8 +238,11 @@ const match_search  = () => {
       hasMatchColumn=match_group_by_column(matrixData, column);
       resultado.push(hasMatchColumn)
     }
+
     if (resultado.includes(true)){
+      //await delay(3000)
     down_elements(matrixData)
+    
     }
 }
 
@@ -377,10 +391,10 @@ const down_elements=(matriz)=>{
         }
     l++
     }
-match_search(matrixData) 
+match_search(matrixData)
+displayGrid()
+
+firstClick = null;
+secondClick = null;
+
 }
-
-
-
-
-
