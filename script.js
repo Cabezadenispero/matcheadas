@@ -148,7 +148,7 @@ const displayGrid = () => {
 
 //-------- Start play----------
 
-const play=(e)=>{
+const play= (e)=>{
   if(firstClick==null){
     firstClick=e.target;
   }
@@ -157,12 +157,24 @@ const play=(e)=>{
     if(checkAdjacent(firstClick,secondClick)){
       if(switchItems(firstClick,secondClick)){
         
-        match_search()
+console.log(match_search())
+
+        // if (match_search()){
+        //   //sumar puntos
+        // }else{
+
+          
+        //   switchItems(secondClick, firstClick)
+        //   firstClick = null;
+        //   secondClick = null;
+        //   console.log("primer click", firstClick)
+        // }
+
       }
-      ;
+
     } 
   }
- 
+
 }
 
 
@@ -224,26 +236,33 @@ const match_search  = () => {
     let hasMatchColumn=false;
 
     let resultado=[];
+    let hasMatch=false;
     //console.table(matrixData)
     console.log("en row")
 
     //---- Search in row
     for(let row = 0; row < matrixData.length; row++) {
-      hasMatchRow=match_group_by_row(matrixData, row);
-      resultado.push(hasMatchRow)
+      rta = match_group_by_row(matrixData, row);
+      console.log(rta);
+      if(rta) hasMatch = true
+      //resultado.push(hasMatchRow)
     }
     console.log("en column")
     //---- Search in column
     for(let column = 0; column < matrixData[0].length; column++) {
-      hasMatchColumn=match_group_by_column(matrixData, column);
-      resultado.push(hasMatchColumn)
+      const rta = match_group_by_column(matrixData, column);
+      console.log(rta);
+      if(rta) hasMatch = true
+      //resultado.push(hasMatchColumn)
     }
 
-    if (resultado.includes(true)){
+    if (hasMatch){
       //await delay(3000)
-    down_elements(matrixData)
-    
+      down_elements(matrixData)
     }
+  
+  return hasMatch;
+
 }
 
 
