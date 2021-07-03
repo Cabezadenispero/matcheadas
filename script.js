@@ -155,14 +155,13 @@ const play=(e)=>{
   else if (firstClick !=null){
     secondClick=e.target; 
     if(checkAdjacent(firstClick,secondClick)){
-      if(switchItems(firstClick,secondClick)){
-        
-        match_search()
-      }
-      ;
+      switchItems(firstClick,secondClick)
+      console.log(matrixData);
+      if(!match_search(matrixData)) {
+        switchItems(secondClick,firstClick)
+      } 
     } 
   }
- 
 }
 
 
@@ -210,9 +209,6 @@ const switchItems=(firstClick, secondClick)=>{
     console.log("primero", valueFirstCell);
     console.log("segundo",valueSecondCell);
 
-    console.log(matrixData);
-    match_search(matrixData)
-
 }
 
 //--------Search for matches row and column--------------
@@ -241,9 +237,12 @@ const match_search  = () => {
 
     if (resultado.includes(true)){
       //await delay(3000)
-    down_elements(matrixData)
+      down_elements(matrixData)
+      return true
     
     }
+
+    return false
 }
 
 
