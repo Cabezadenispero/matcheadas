@@ -250,7 +250,7 @@ const match_search  = () => {
 
     if (hasMatch){
       //await delay(3000)
-      downItemsAndFill(matrixData)
+      downItems(matrixData)
     }
   
   return hasMatch;
@@ -386,7 +386,7 @@ const match_group_by_column = (full_grid, column) => {
 
 //---------- Down items and Fill -------------
 
-const downItemsAndFill=(matriz)=>{
+const downItems=(matriz)=>{
     let l=0;
     while (l<10){
         for (let i=0; i< matriz.length-1; i++){
@@ -396,9 +396,7 @@ const downItemsAndFill=(matriz)=>{
                     matriz[i+1][j]=matriz[i][j]
                     matriz[i][j]='x'
 
-                      if(matriz[i][j]=='x'){
-                        matriz[i][j]=Math.floor(Math.random() * (7 - 1) ) + 1;
-                      }
+                      
   
                   
                 }
@@ -406,7 +404,8 @@ const downItemsAndFill=(matriz)=>{
         }
     l++
     };
-    
+
+fillEmpyItems (matrixData);    
 match_search(matrixData);
 displayGrid();
 
@@ -415,3 +414,13 @@ secondClick = null;
 
 }
 
+const fillEmpyItems=(matriz)=>{
+
+  for (let i=0; i< matriz.length; i++){
+    for(let j=0; j<  matriz[i].length; j++){
+      if(matriz[i][j]=='x'){
+        matriz[i][j]=Math.floor(Math.random() * (7 - 1) ) + 1;
+      }
+    }
+  } 
+}
