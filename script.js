@@ -250,7 +250,7 @@ const match_search  = () => {
 
     if (hasMatch){
       //await delay(3000)
-      down_elements(matrixData)
+      downItemsAndFill(matrixData)
     }
   
   return hasMatch;
@@ -384,9 +384,9 @@ const match_group_by_column = (full_grid, column) => {
 
 }
 
-//---------- Down elements -------------
+//---------- Down items and Fill -------------
 
-const down_elements=(matriz)=>{
+const downItemsAndFill=(matriz)=>{
     let l=0;
     while (l<10){
         for (let i=0; i< matriz.length-1; i++){
@@ -395,8 +395,12 @@ const down_elements=(matriz)=>{
                 if( matriz[i+1][j]==='x' && matriz[i+1]!=undefined){
                     matriz[i+1][j]=matriz[i][j]
                     matriz[i][j]='x'
-                    
-                
+
+                      if(matriz[i][j]=='x'){
+                        matriz[i][j]=Math.floor(Math.random() * (7 - 1) ) + 1;
+                      }
+  
+                  
                 }
             }
         }
