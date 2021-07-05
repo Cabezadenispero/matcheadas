@@ -148,35 +148,28 @@ const displayGrid = () => {
 
 //-------- Start play----------
 
-const play= (e)=>{
+const play= async (e)=>{
   if(firstClick==null){
     firstClick=e.target;
   }
   else if (firstClick !=null){
     secondClick=e.target; 
     if(checkAdjacent(firstClick,secondClick)){
-      if(switchItems(firstClick,secondClick)){
+      switchItems(firstClick,secondClick)
         
-console.log(match_search())
+        console.log(match_search())
 
-        // if (match_search()){
-        //   //sumar puntos
-        // }else{
-
-          
-        //   switchItems(secondClick, firstClick)
-        //   firstClick = null;
-        //   secondClick = null;
-        //   console.log("primer click", firstClick)
-        // }
-
-      }
-
+        if (match_search()){
+          //sumar puntos
+        }else{
+          await delay(1000)
+          switchItems(secondClick, firstClick)
+          firstClick = null;
+          secondClick = null;
+        }
     } 
   }
-
 }
-
 
 //----- Check if elements is adjacent--------
 
@@ -224,7 +217,7 @@ const switchItems=(firstClick, secondClick)=>{
 
     console.log(matrixData);
     match_search(matrixData)
-
+    
 }
 
 //--------Search for matches row and column--------------
@@ -242,8 +235,7 @@ const match_search  = () => {
 
     //---- Search in row
     for(let row = 0; row < matrixData.length; row++) {
-      rta = match_group_by_row(matrixData, row);
-      console.log(rta);
+      const rta = match_group_by_row(matrixData, row);
       if(rta) hasMatch = true
       //resultado.push(hasMatchRow)
     }
@@ -251,7 +243,7 @@ const match_search  = () => {
     //---- Search in column
     for(let column = 0; column < matrixData[0].length; column++) {
       const rta = match_group_by_column(matrixData, column);
-      console.log(rta);
+
       if(rta) hasMatch = true
       //resultado.push(hasMatchColumn)
     }
@@ -264,7 +256,6 @@ const match_search  = () => {
   return hasMatch;
 
 }
-
 
 //---------- Match in row------------
 
@@ -404,16 +395,19 @@ const down_elements=(matriz)=>{
                 if( matriz[i+1][j]==='x' && matriz[i+1]!=undefined){
                     matriz[i+1][j]=matriz[i][j]
                     matriz[i][j]='x'
+                    
                 
                 }
             }
         }
     l++
-    }
-match_search(matrixData)
-displayGrid()
+    };
+    
+match_search(matrixData);
+displayGrid();
 
 firstClick = null;
 secondClick = null;
 
 }
+
