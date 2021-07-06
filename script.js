@@ -78,8 +78,8 @@ const initilizeMatrix = (size) => {
         matrixData.push(row);
     }
     
-    console.log("matrixData", matrixData);
     match_search  (matrixData);
+    
 }
 
 //------------ Show Grid game------------------
@@ -159,9 +159,13 @@ const play= async (e)=>{
         
         console.log(match_search())
 
-        if (match_search()){
+        if (!match_search()){
           //sumar puntos
-        }else{
+          console.log("hola");
+          match_search(matrixData);
+          score(matrixData);
+          
+        }else {
           await delay(1000)
           if (secondClick && firstClick){
             switchItems(secondClick, firstClick)
@@ -253,9 +257,9 @@ const match_search  = () => {
 
     if (hasMatch){
       //await delay(3000)
-      downItems(matrixData)
+      downItems(matrixData);  
     }
-  
+
   return hasMatch;
 
 }
@@ -398,17 +402,12 @@ const downItems=(matriz)=>{
                 if( matriz[i+1][j]==='x' && matriz[i+1]!=undefined){
                     matriz[i+1][j]=matriz[i][j]
                     matriz[i][j]='x'
-
-                      
-  
-                  
                 }
             }
         }
     l++
     };
-
-fillEmpyItems (matrixData);    
+fillEmpyItems(matrixData) 
 match_search(matrixData);
 displayGrid();
 
@@ -427,3 +426,21 @@ const fillEmpyItems=(matriz)=>{
     }
   } 
 }
+
+const scoreBox=document.getElementById('score');
+
+const score=(matriz)=>{
+  let emptyCells=0;
+  let totalScore= 0;
+
+  for (let i=0; i< matriz.length; i++){        
+    for(let j=0; j<  matriz[i].length; j++){
+      if(matriz[i][j]=='x') {
+        emptyCells++
+      }
+    }
+  }
+  console.log("Celdas vacías", emptyCells);
+}
+
+// score(matrixData);
