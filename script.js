@@ -163,9 +163,12 @@ const play= async (e)=>{
           //sumar puntos
         }else{
           await delay(1000)
-          switchItems(secondClick, firstClick)
-          firstClick = null;
-          secondClick = null;
+          if (secondClick && firstClick){
+            switchItems(secondClick, firstClick)
+            firstClick = null;
+            secondClick = null;
+          }
+          
         }
     } 
   }
