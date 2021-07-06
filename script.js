@@ -13,6 +13,8 @@ let secondClick = null;
 let firstItemValue=[];
 let secondItemValue = [];
 
+let emptyCell=0;
+
 //------Alert wellcome and choose level -------
 
 const selectLevel = (selectLevelOnCompleteCallback) =>{
@@ -78,8 +80,10 @@ const initilizeMatrix = (size) => {
         matrixData.push(row);
     }
     
+    console.log("matrixData", matrixData);
     match_search  (matrixData);
-    
+    emptyCell=0;
+    scorevalue.innerHTML=0;
 }
 
 //------------ Show Grid game------------------
@@ -145,7 +149,6 @@ const displayGrid = () => {
   }
 };
 
-
 //-------- Start play----------
 
 const play= async (e)=>{
@@ -156,23 +159,19 @@ const play= async (e)=>{
     secondClick=e.target; 
     if(checkAdjacent(firstClick,secondClick)){
       switchItems(firstClick,secondClick)
-        
-        console.log(match_search())
 
-        if (!match_search()){
+        if (match_search()){
           //sumar puntos
-          console.log("hola");
-          match_search(matrixData);
           score(matrixData);
+          fillEmpyItems (matrixData);  
+        }else{
           
-        }else {
           await delay(1000)
           if (secondClick && firstClick){
             switchItems(secondClick, firstClick)
             firstClick = null;
             secondClick = null;
           }
-          
         }
     } 
   }
@@ -229,7 +228,6 @@ const switchItems=(firstClick, secondClick)=>{
 
 //--------Search for matches row and column--------------
 
-
 const match_search  = () => {
 
     let hasMatchRow=false;
@@ -257,9 +255,9 @@ const match_search  = () => {
 
     if (hasMatch){
       //await delay(3000)
-      downItems(matrixData);  
+      downItems(matrixData)
     }
-
+  
   return hasMatch;
 
 }
@@ -402,19 +400,25 @@ const downItems=(matriz)=>{
                 if( matriz[i+1][j]==='x' && matriz[i+1]!=undefined){
                     matriz[i+1][j]=matriz[i][j]
                     matriz[i][j]='x'
+
+                      
+  
+                  
                 }
             }
         }
     l++
     };
-fillEmpyItems(matrixData) 
+score(matrixData)
+fillEmpyItems (matrixData);    
 match_search(matrixData);
 displayGrid();
 
+
 firstClick = null;
 secondClick = null;
-
 }
+
 
 const fillEmpyItems=(matriz)=>{
 
@@ -427,20 +431,20 @@ const fillEmpyItems=(matriz)=>{
   } 
 }
 
-const scoreBox=document.getElementById('score');
+const scorevalue= document.getElementById('score');
 
-const score=(matriz)=>{
-  let emptyCells=0;
-  let totalScore= 0;
+const score =(matriz)=>{
 
-  for (let i=0; i< matriz.length; i++){        
+
+
+  for (let i=0; i< matriz.length; i++){
     for(let j=0; j<  matriz[i].length; j++){
-      if(matriz[i][j]=='x') {
-        emptyCells++
+      if(matriz[i][j]=='x'){
+        emptyCell++;
       }
     }
   }
-  console.log("Celdas vacías", emptyCells);
-}
+  scorevalue.innerHTML= emptyCell*200;
+  console.log("celdas", emptyCell)
+};
 
-// score(matrixData);
