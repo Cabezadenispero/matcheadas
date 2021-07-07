@@ -4,6 +4,8 @@ let size;
 const matrixData = [];
 
 const grid = document.getElementById('grid');
+const scorevalue= document.getElementById('score');
+const comboPanel= document.getElementById('combo');
 
 let match_grid = [];
 
@@ -14,6 +16,7 @@ let firstItemValue=[];
 let secondItemValue = [];
 
 let emptyCell=0;
+let combo=1;
 
 //------Alert wellcome and choose level -------
 
@@ -84,6 +87,8 @@ const initilizeMatrix = (size) => {
     match_search  (matrixData);
     emptyCell=0;
     scorevalue.innerHTML=0;
+    combo=1;
+    comboPanel.innerHTML=1;
 }
 
 //------------ Show Grid game------------------
@@ -163,7 +168,9 @@ const play= async (e)=>{
         if (match_search()){
           //sumar puntos
           score(matrixData);
-          fillEmpyItems (matrixData);  
+          fillEmpyItems (matrixData);
+          
+          
         }else{
           
           await delay(1000)
@@ -228,7 +235,7 @@ const switchItems=(firstClick, secondClick)=>{
 
 //--------Search for matches row and column--------------
 
-const match_search  = () => {
+const match_search  = async() => {
 
     let hasMatchRow=false;
     let hasMatchColumn=false;
@@ -255,7 +262,11 @@ const match_search  = () => {
 
     if (hasMatch){
       //await delay(3000)
-      downItems(matrixData)
+      downItems(matrixData);
+      comboPanel.innerHTML=combo;
+      await delay(1000)
+      combo=1;
+      comboPanel.innerHTML=1;
     }
   
   return hasMatch;
@@ -301,7 +312,9 @@ const match_group_by_row = (full_grid, row) => {
             full_grid[row][j] = 'x'
             hasMatch=true;
             
+            
           }
+          combo++;
         }
       }
     }
@@ -313,7 +326,9 @@ const match_group_by_row = (full_grid, row) => {
             full_grid[row][k] = 'x';
             hasMatch=true;
             
+            
           }
+          combo++;
         }
         group_start = -1
         group_end = -1
@@ -321,6 +336,7 @@ const match_group_by_row = (full_grid, row) => {
       }
     }
   }
+  console.log("combo", combo)
   return hasMatch
 }
 
@@ -363,7 +379,9 @@ const match_group_by_column = (full_grid, column) => {
           for(let h = group_start; h < group_end+1; h++) {
             full_grid[h][column] = 'x';
             hasMatch=true;
+            
           }
+          combo++;
         }
       }
     }
@@ -376,7 +394,9 @@ const match_group_by_column = (full_grid, column) => {
           for(let z = group_start; z < group_end+1; z++) {
             full_grid[z][column] = 'x';
             hasMatch=true;
+            
           }
+          combo++;
         }
 
         group_start = -1
@@ -414,7 +434,6 @@ fillEmpyItems (matrixData);
 match_search(matrixData);
 displayGrid();
 
-
 firstClick = null;
 secondClick = null;
 }
@@ -431,7 +450,7 @@ const fillEmpyItems=(matriz)=>{
   } 
 }
 
-const scorevalue= document.getElementById('score');
+
 
 const score =(matriz)=>{
 
