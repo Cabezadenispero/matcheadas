@@ -32,6 +32,11 @@ body{
 main{
     max-width: 500px;
     width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction:column;
+    
 }
 
 i {
@@ -49,11 +54,58 @@ i {
     margin-top: 20px;
 }
 
+.game-control {        
+    display: flex;
+    flex-direction:row;
+    justify-content:space-around;
+    margin: 10px 0px;    
+    width: 500px;
+    height: 50px;
+    color: white;
+}
+
+.score-container {
+    font-size: 30px;
+    width: 70%;
+    margin-right: 10px;
+    height:100%;
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content:space-around;
+    border: 1px solid black;
+    border-radius:15px;
+    background: rgb(0 0 0 / 55%);
+}
+
+.button-container {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content:flex-end;
+    border: 1px solid black;
+    border-radius:15px;
+    background: rgb(0 0 0 / 55%);
+}
+
+.btn-padding {
+    padding:0px 5px;
+    border: none;
+    background-color: transparent;
+}
+
+.fas {
+    font-size: 20px;
+    margin: 0px 3px;
+}
+
+
 /* Matrix game */
 
 #grid-container{
     width: 100%;
     height: 500px;
+    margin-top: 10px;
     border-radius: 10px;
     padding: 10px;
     box-sizing: border-box;
@@ -68,13 +120,16 @@ i {
 
 .grid-cell{
     position:absolute;
+    display: flex;
+    align-items: center;
+    justify-content:center;
 }
 
 /* alert wellcome format*/
 
 .swal-modal {
     position: absolute;
-    top: 20px;
+    top: 300px;
     left: calc(50% - 240px);
     padding: 10px 25px;
     border-radius: 15px;
@@ -107,4 +162,133 @@ i {
 
 img{
     width:45px;
+}
+
+.time-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height:50px;
+    margin: 15px;
+    font-size: 40px;
+    border: 1px black solid;
+    background-color: rgb(0 0 0 / 65%);
+    color: white;
+    border-radius: 15px;
+}
+
+.fas {
+    font-size: 20px;
+}
+
+.fa-hourglass-half {
+    margin-right: 20px;
+    font-size: 30px;
+}
+
+
+
+/* responsive */
+
+@media (min-width: 400px) and (max-width: 799px) {
+    .swal-modal {
+        position: absolute;
+        top: 100px;
+        left: calc(50% - 190px) !important;
+        padding: 10px 5px;
+        border-radius: 15px;
+        width:380px !important;
+        display: flex;
+        flex-direction:column;
+        text-align: center;    
+    }    
+    main {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width:90%;
+    }
+    .game-control {
+        width: 100%;
+    }
+    .score-container {
+        font-size: 20px;
+    }
+    .grid-cell {
+        display: flex;
+        justify-content:space-around;
+    }
+    img {
+        height: 70%;   
+    }
+}
+
+@media (min-width: 800px) and (max-width: 1199px) {
+    .game-control {
+        width: 100%;
+    }
+    .score-container {
+        font-size: 30px;
+    }
+    .grid-cell {
+        display: flex;
+        justify-content:space-around;
+    }
+    img {
+        height: 80%;   
+    }
+}
+
+@media (min-width: 200px) and (max-width: 399px) {
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .swal-modal {
+        position: absolute;
+        top: 10px;
+        left: calc(50% - 135px) !important;
+        padding: 10px 5px;
+        border-radius: 15px;
+        width:270px !important;
+        display: flex;
+        flex-direction:column;
+        text-align: center;    
+    }
+    .swal-button {
+        width: 100px;
+        height: 40px;
+        align-self: auto;
+        background-color: var(--background-color-button);
+    }    
+    main {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width:98%;
+    }
+    .game-control {
+        width: 100%;
+    }
+    .score-container {
+        font-size: 18px;
+    }
+    #grid-container{
+        width: 100%;
+        height: 460px;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+    img {
+        max-width: 100%;
+        height: auto; 
+    }
+    .fas {
+        font-size: 20px;
+    }
+    .time-remaining {
+        font-size:60%;
+    }
 }
