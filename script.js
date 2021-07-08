@@ -82,20 +82,18 @@ const initilizeMatrix = (size) => {
         }
         matrixData.push(row);
     }
-    
-    console.log("matrixData", matrixData);
     match_search  (matrixData);
-    emptyCell=0;
-    scorevalue.innerHTML=0;
-    combo=1;
-    comboPanel.innerHTML=1;
+    resetScore();
+    combo=1
+    comboPanel.innerHTML=combo;
+    //resetCombo(combo); aca en realidad va esta funcion en vez de las dos lineas anteriores, pero como tiene el delay puse esto para que arranque en 1 desde el inicio, sino pasan 0.5 segundos antes de volver a 1. 
+
 }
 
 //------------ Show Grid game------------------
 
 const displayGrid = () => {
   grid.innerHTML="";
-
 
   let positionY = 0;
   const cellWidth = (grid.offsetWidth / matrixData.length);
@@ -146,11 +144,10 @@ const displayGrid = () => {
       case 6:
         image.setAttribute("src","./images/icons/surfboard.svg");
         break;
-        
     } 
-      positionX += cellWidth;
+    positionX += cellWidth;
   }
-        positionY += cellHeight;
+  positionY += cellHeight;
   }
 };
 
@@ -163,24 +160,24 @@ const play= async (e)=>{
   else if (firstClick !=null){
     secondClick=e.target; 
     if(checkAdjacent(firstClick,secondClick)){
-      switchItems(firstClick,secondClick)
+      switchItems(firstClick,secondClick);
 
         if (match_search()){
-          //sumar puntos
           score(matrixData);
           fillEmpyItems (matrixData);
           
-          
         }else{
-          
-          await delay(1000)
+          await delay(500)
           if (secondClick && firstClick){
             switchItems(secondClick, firstClick)
             firstClick = null;
             secondClick = null;
           }
         }
-    } 
+    } else{
+      firstClick = null;
+      secondClick = null;
+    }
   }
 }
 
@@ -229,50 +226,33 @@ const switchItems=(firstClick, secondClick)=>{
     console.log("segundo",valueSecondCell);
 
     console.log(matrixData);
-    match_search(matrixData)
-    
+    match_search(matrixData);
 }
 
 //--------Search for matches row and column--------------
 
-const match_search  = async() => {
+const match_search  = () => {
 
-    let hasMatchRow=false;
-    let hasMatchColumn=false;
-
-    let resultado=[];
     let hasMatch=false;
-    //console.table(matrixData)
-    console.log("en row")
 
     //---- Search in row
     for(let row = 0; row < matrixData.length; row++) {
       const rta = match_group_by_row(matrixData, row);
       if(rta) hasMatch = true
-      //resultado.push(hasMatchRow)
-    }
-    console.log("en column")
+    };
+
     //---- Search in column
     for(let column = 0; column < matrixData[0].length; column++) {
       const rta = match_group_by_column(matrixData, column);
-
-      if(rta) hasMatch = true
-      //resultado.push(hasMatchColumn)
-    }
-
+      if(rta) hasMatch = true;
+    };
     if (hasMatch){
-      //await delay(3000)
       downItems(matrixData);
-      comboPanel.innerHTML=combo;
-      await delay(1000)
-      combo=1;
-      comboPanel.innerHTML=1;
+      comboCounter(combo);
+      resetCombo()
     }
-  
   return hasMatch;
-
 }
-
 //---------- Match in row------------
 
 const match_group_by_row = (full_grid, row) => {
@@ -298,7 +278,6 @@ const match_group_by_row = (full_grid, row) => {
         else {
           group_end = column+1
         }
-        
       }
       else {
         group_end = column+1 
@@ -311,8 +290,6 @@ const match_group_by_row = (full_grid, row) => {
           for(let j = group_start; j < group_end+1; j++) {
             full_grid[row][j] = 'x'
             hasMatch=true;
-            
-            
           }
           combo++;
         }
@@ -336,7 +313,6 @@ const match_group_by_row = (full_grid, row) => {
       }
     }
   }
-  console.log("combo", combo)
   return hasMatch
 }
 
@@ -356,7 +332,6 @@ const match_group_by_column = (full_grid, column) => {
     last_element = (row+1 == number_of_rows-1) ? true : false;
 
     if(full_grid[row][column]==full_grid[row+1][column]) {
-      
       if(group_start == -1) { 
         group_start = row 
         if(last_element) {
@@ -365,21 +340,18 @@ const match_group_by_column = (full_grid, column) => {
         else {
           group_end = row+1
         }
-        
+
       }
       else {
-
         group_end = row+1 
       }
 
       if(last_element) {
         group_size = group_end - group_start;
-
         if(group_size >= 2) {
           for(let h = group_start; h < group_end+1; h++) {
             full_grid[h][column] = 'x';
             hasMatch=true;
-            
           }
           combo++;
         }
@@ -394,22 +366,18 @@ const match_group_by_column = (full_grid, column) => {
           for(let z = group_start; z < group_end+1; z++) {
             full_grid[z][column] = 'x';
             hasMatch=true;
-            
           }
           combo++;
         }
-
         group_start = -1
         group_end = -1
-
       }
     }
   }
   return hasMatch;
-
 }
 
-//---------- Down items and Fill -------------
+//---------- Down items --------------
 
 const downItems=(matriz)=>{
     let l=0;
@@ -420,24 +388,22 @@ const downItems=(matriz)=>{
                 if( matriz[i+1][j]==='x' && matriz[i+1]!=undefined){
                     matriz[i+1][j]=matriz[i][j]
                     matriz[i][j]='x'
-
-                      
-  
                   
                 }
             }
         }
     l++
     };
-score(matrixData)
-fillEmpyItems (matrixData);    
-match_search(matrixData);
-displayGrid();
+  score(matrixData)
+  fillEmpyItems (matrixData);    
+  match_search(matrixData);
+  displayGrid();
 
-firstClick = null;
-secondClick = null;
+  firstClick = null;
+  secondClick = null;
 }
 
+//---------- Fill items-------------
 
 const fillEmpyItems=(matriz)=>{
 
@@ -448,13 +414,11 @@ const fillEmpyItems=(matriz)=>{
       }
     }
   } 
-}
+};
 
-
+//---------- score functions--------
 
 const score =(matriz)=>{
-
-
 
   for (let i=0; i< matriz.length; i++){
     for(let j=0; j<  matriz[i].length; j++){
@@ -467,3 +431,21 @@ const score =(matriz)=>{
   console.log("celdas", emptyCell)
 };
 
+const resetScore =()=>{
+  emptyCell=0;
+  scorevalue.innerHTML=0;
+}
+
+//---------- combo functions--------
+
+const comboCounter = (combo)=>{
+  comboPanel.innerHTML=combo;
+  console.log("estos son los combos logrados en esta jugada:", comboPanel.innerHTML);
+}
+
+const resetCombo =async()=>{
+  await delay (500)
+  combo=1
+  comboPanel.innerHTML=combo;
+  console.log("aqui se reseteo y los combos volvieron a:", combo)
+}
