@@ -74,6 +74,7 @@ const selectLevel = (selectLevelOnCompleteCallback) =>{
   }).then((value) => {
       levelChoice(value)
       selectLevelOnCompleteCallback(size);
+      timer();
       });
     };
   });
@@ -86,13 +87,19 @@ window.addEventListener('load', selectLevel(function(size){
 //----- Alert help button------
 
 helpButton.addEventListener('click', ()=>{
+  clearInterval(counterStop);
   swal({
     title: "!Bienvenida!",
     text: "En matcheADAs tu objetivo es juntar tres o más items del mismo tipo, ya sea en fila o en columna. Para eso, selecciona un item y a continuación un item adyacente para intercambiarlos de lugar. \n \n Si se forma un grupo, esos items se eliminarán y ganarás puntos. ¡Sigue armando grupos de tres o más antes de que se acabe el tiempo! \n \n Controles \n Click izquierdo: selección. \n Enter o espacio: selección. \n Flechas o WASD: movimiento e intercambio." ,
     button: "A Jugar",
     closeOnClickOutside: false,
-  })
+  }).then((valor)=>{
+    if(valor){
+    timer();
+  }
+  });
 });
+
 
 //----- Alert re-start button and function------
 
@@ -120,6 +127,8 @@ const restartButtonFunction = ()=>{
       matrixData = [];
       initilizeMatrix(size); 
       displayGrid();
+      secCounter=duration;      
+      timer();
       });
 };
 
@@ -503,3 +512,21 @@ const resetCombo =async()=>{
   comboPanel.innerHTML=combo;
   console.log("aqui se reseteo y los combos volvieron a:", combo)
 }
+
+let counterStop;
+const duration = 5;
+let secCounter=duration;
+const s=document.getElementById('seconds');
+
+const timer=()=>{
+  counterStop = setInterval(
+    function(){
+      s.innerHTML=secCounter;
+      secCounter--;
+      if(secCounter== -1){
+        clearInterval(counterStop);
+        console.log('Acá paró')
+      }
+    }
+  ,1000)
+};
