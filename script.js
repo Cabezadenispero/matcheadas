@@ -514,7 +514,7 @@ const resetCombo =async()=>{
 }
 
 let counterStop;
-const duration = 5;
+const duration = 30;
 let secCounter=duration;
 const s=document.getElementById('seconds');
 
