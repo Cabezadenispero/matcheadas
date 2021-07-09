@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Satisfy&display=swap');
 *{
     -webkit-transition: all 300ms ease;
     -moz-transition: all 300ms ease;
@@ -11,7 +12,7 @@
 body.format {
     --background-color-button: #5d5dda;
     --background-color-overlay: #5d5dda;
-    --color-title: #5d5dda;
+    --color-title: #4357E8 ;
     --text-outline: 1px 1px #2c2b2b, 1px -1px #2c2b2b, -1px -1px #2c2b2b,
     -1px 1px #2c2b2b;
     --text-outline-title: 1px 1px #fafafa, 1px -1px #fafafa, -1px -1px #fafafa,
@@ -23,6 +24,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     background-image: url('./images/image-from-rawpixel-id-680670-jpeg.jpg');
     background-size: cover;
     position: relative;
@@ -35,22 +37,17 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction:column;
-    
-}
-
-i {
-    color: #fafafa;
-    text-shadow: var(--text-outline);
+    flex-direction:column;    
 }
 
 .game-title {
+    font-family: 'Satisfy', cursive;
     text-align: center;
-    font-size: 45px;
+    font-size: 55px;
     font-weight: 800;
     color: var(--color-title);
     text-shadow: var(--text-outline-title);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     margin-top: 20px;
 }
 
@@ -58,14 +55,14 @@ i {
     display: flex;
     flex-direction:row;
     justify-content:space-around;
-    margin: 10px 0px;    
+    margin: 0px 0px 10px;    
     width: 500px;
     height: 50px;
     color: white;
 }
 
 .score-container {
-    font-size: 30px;
+    font-size: 20px;
     width: 70%;
     margin-right: 10px;
     height:100%;
@@ -97,8 +94,14 @@ i {
 .fas {
     font-size: 20px;
     margin: 0px 3px;
+    color: #fafafa;
+    text-shadow: var(--text-outline);
 }
 
+.end {
+    font-style: italic;
+    margin-top: 40px;
+}
 
 /* Matrix game */
 
@@ -129,7 +132,7 @@ i {
 
 .swal-modal {
     position: absolute;
-    top: 300px;
+    top: 100px;
     left: calc(50% - 240px);
     padding: 10px 25px;
     border-radius: 15px;
@@ -168,12 +171,12 @@ img{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40%;
+    width: 30%;
     height:50px;
     margin: 15px;
-    font-size: 40px;
+    font-size: 30px;
     border: 1px black solid;
-    background-color: rgb(0 0 0 / 65%);
+    background-color: rgb(0 0 0 / 55%);
     color: white;
     border-radius: 15px;
 }
@@ -184,21 +187,35 @@ img{
 
 .fa-hourglass-half {
     margin-right: 20px;
-    font-size: 30px;
 }
 
+.fa-undo-alt:hover{
+transform: rotate(-180deg);
+}
 
+.fa-info-circle:hover{
+    transform: scale(1.3);
+    }
+
+.grid-cell:hover {
+    transform: scale(1.2)
+}
+
+.grid-cell:active {
+    transform: scale(1.2);
+    background-color: grey;
+}
 
 /* responsive */
 
 @media (min-width: 400px) and (max-width: 799px) {
     .swal-modal {
         position: absolute;
-        top: 100px;
-        left: calc(50% - 190px) !important;
+        top: 40px;
+        left: calc(50% - 195px) !important;
         padding: 10px 5px;
         border-radius: 15px;
-        width:380px !important;
+        width:390px !important;
         display: flex;
         flex-direction:column;
         text-align: center;    
@@ -209,22 +226,37 @@ img{
         flex-direction: column;
         width:90%;
     }
+    .game-title {
+        margin-top: 10px;
+        margin-bottom: 3px;
+    }
     .game-control {
         width: 100%;
     }
     .score-container {
         font-size: 20px;
     }
+    #grid-container{
+        width: 100%;
+        height: 460px;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
     .grid-cell {
         display: flex;
         justify-content:space-around;
     }
     img {
-        height: 70%;   
+        max-width: 90%;
+        height: auto;    
+    }
+    .end {
+        display: none;
     }
 }
 
 @media (min-width: 800px) and (max-width: 1199px) {
+    
     .game-control {
         width: 100%;
     }
@@ -236,7 +268,8 @@ img{
         justify-content:space-around;
     }
     img {
-        height: 80%;   
+        max-width: 90%;
+        height: auto;  
     }
 }
 
@@ -269,6 +302,10 @@ img{
         flex-direction: column;
         width:98%;
     }
+    .game-title {
+        margin-top: 10px;
+        margin-bottom: 3px;
+    }
     .game-control {
         width: 100%;
     }
@@ -277,12 +314,10 @@ img{
     }
     #grid-container{
         width: 100%;
-        height: 460px;
-        border-radius: 10px;
-        box-sizing: border-box;
+        height: 400px;
     }
     img {
-        max-width: 100%;
+        max-width: 90%;
         height: auto; 
     }
     .fas {
@@ -290,5 +325,8 @@ img{
     }
     .time-remaining {
         font-size:60%;
+    }
+    .end {
+        display: none;
     }
 }
