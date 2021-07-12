@@ -522,11 +522,66 @@ const timer=()=>{
   counterStop = setInterval(
     function(){
       s.innerHTML=secCounter;
-      secCounter--;
+      secCounter--; 
       if(secCounter== -1){
         clearInterval(counterStop);
-        console.log('Acá paró')
+        timeOut();
       }
     }
   ,1000)
+};
+
+const timeOut = ()=>{
+  swal({title: "¡Juego terminado!",
+          text:`Puntaje final: ${scorevalue.innerHTML}`,
+          closeOnClickOutside: false,
+          buttons: {
+            NewGame: {
+              text: "Nuevo juego",
+              value: "newgame",
+              className: "newgame",
+            },
+            Restart: {
+                text: "Reiniciar",
+                value: "restart",
+            }
+        }
+  }).then((value) => {
+      if(value=="newgame"){
+        swal({title: "Nuevo juego",
+          text: "Selecciona una dificultad",
+          closeOnClickOutside: false,
+          buttons: {
+            facil: {
+              text: "Fácil",
+              value: "easy",
+            },
+            normal: {
+                text: "Normal",
+                value: "normal",
+            },
+            dificil: {
+                text: "Difícil",
+                value: "difficult",
+            }
+        },
+  }).then((value) => {
+    levelChoice(value);
+    matrixData = [];
+    initilizeMatrix(size); 
+    displayGrid();
+    secCounter=duration;      
+    timer();
+      });
+    }
+      else if(value=="restart"){
+        matrixData = [];
+        initilizeMatrix(size); 
+        displayGrid();
+        resetScore();
+        secCounter=duration;      
+        timer();
+      }
+      
+      });
 };
