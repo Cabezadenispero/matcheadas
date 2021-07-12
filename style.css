@@ -158,6 +158,12 @@ main{
     align-self: flex-end;
     background-color: var(--background-color-button);
 }
+.swal-button.newgame{
+    width: 140px;
+    height: 35px;
+    align-self: flex-end;
+    background-color: var(--background-color-button);
+}
 
 .swal-overlay {
     background-color: rgba(93, 93, 218, 0.25);
