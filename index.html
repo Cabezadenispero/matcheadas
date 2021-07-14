@@ -13,6 +13,12 @@
     <main>
         <h1 class="game-title">MatcheAdas</h1>
         <div class="game-control">
+            <div class="time-container">
+                <i class="fas fa-hourglass-half" aria-hidden="true"></i>
+                <p class="time-remaining">
+                    <span id="minutes">0</span>:<span id="seconds">00</span>
+                </p>
+            </div>
             <div class="score-container">
                 <p>Combo x<span id="combo">1</span></p>
                 <p>Puntos: <span id="score">0</span></p>
@@ -29,15 +35,9 @@
         <div id="grid-container">
             <div id="grid"></div>
         </div>
-        <div class="time-container">
-            <i class="fas fa-hourglass-half" aria-hidden="true"></i>
-            <p class="time-remaining">
-                <span id="minutes">0</span>:<span id="seconds">00</span>
-            </p>
-        </div>
-            
-    </main>
     <p class="end">A smooth sea never made a skilled sailor... by San, Ceci & Lola. </p>
+    </main>
+    
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
 </body>
 <script src="script.js"></script>
