@@ -165,6 +165,13 @@ main{
     background-color: var(--background-color-button);
 }
 
+.swal-button.cancel{
+    width: 120px;
+    height: 35px;
+    align-self: flex-end;
+    background-color: grey;
+}
+
 .swal-overlay {
     background-color: rgba(93, 93, 218, 0.25);
 }
