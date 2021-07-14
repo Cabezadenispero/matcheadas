@@ -8,6 +8,8 @@ const scorevalue= document.getElementById('score');
 const comboPanel= document.getElementById('combo');
 const helpButton= document.getElementById('help-button');
 const restartButton= document.getElementById('restart-button');
+const s=document.getElementById('seconds');
+const duration = 30;
 
 
 let match_grid = [];
@@ -20,6 +22,9 @@ let secondItemValue = [];
 
 let emptyCell=0;
 let combo=1;
+
+let counterStop;
+let secCounter=duration;
 
 //------Alert wellcome and choose level -------
 
@@ -103,9 +108,26 @@ helpButton.addEventListener('click', ()=>{
 
 //----- Alert re-start button and function------
 
-const restartButtonFunction = ()=>{
-  console.log("hola")
-  swal({title: "Nuevo juego",
+restartButton.addEventListener('click', ()=>{
+  clearInterval(counterStop);
+  swal({title: "Reiniciar juego?",
+          text:`Perderás todo tu puntaje`,
+          closeOnClickOutside: false,
+          buttons: {
+            Cancel: {
+              text: "Cancelar",
+              value: "cancel",
+              className: "cancel"
+            },
+            NewGame: {
+              text: "Nuevo juego",
+              value: "newgame",
+              className: "newgame",
+            },
+        }
+  }).then((value) => {
+      if(value=="newgame"){
+        swal({title: "Nuevo juego",
           text: "Selecciona una dificultad",
           closeOnClickOutside: false,
           buttons: {
@@ -123,16 +145,20 @@ const restartButtonFunction = ()=>{
             }
         },
   }).then((value) => {
-      levelChoice(value);
-      matrixData = [];
-      initilizeMatrix(size); 
-      displayGrid();
-      secCounter=duration;      
-      timer();
+    levelChoice(value);
+    matrixData = [];
+    initilizeMatrix(size); 
+    displayGrid();
+    secCounter=duration;      
+    timer();
       });
-};
-
-restartButton.addEventListener('click', restartButtonFunction)
+    }
+      else if(value=="cancel"){
+        timer();
+      }
+      
+      });
+});
 
 //-------Initilize Matrix game--------------
 
@@ -513,10 +539,7 @@ const resetCombo =async()=>{
   console.log("aqui se reseteo y los combos volvieron a:", combo)
 }
 
-let counterStop;
-const duration = 30;
-let secCounter=duration;
-const s=document.getElementById('seconds');
+//--------- Timer ----------
 
 const timer=()=>{
   counterStop = setInterval(
@@ -530,6 +553,8 @@ const timer=()=>{
     }
   ,1000)
 };
+
+//--------- Timeout function----------
 
 const timeOut = ()=>{
   swal({title: "¡Juego terminado!",
@@ -585,3 +610,6 @@ const timeOut = ()=>{
       
       });
 };
+
+
+
